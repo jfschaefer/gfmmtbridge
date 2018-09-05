@@ -9,13 +9,19 @@ class GfServer(location : String, port : Int = 41296) {
     val process = Process(List("gf", "--server=" + port, "--document-root=" + location))
     process.run
 
-    def getRequest(pgfPath : String, params : Map[String, String]) : String = {
+    def getRequest(pgfPath : String, params : Map[String, String]) : List[String] = {
         var request = Http("http://localhost:" + port + "/" + pgfPath)
         for (param <- params) {
             request = request.param(param._1, param._2)
         }
         val response = request.asString
-        response.body
+        // println(response.body)
+        val json = JsonParser.parse(response.body)
+
+
+        // TODO: The following is a bad hack. Fix it!
+        //     (problem can be seen with `println((json \\ "trees").children)`)
+        (json \\ "trees").children.map(tree => tree.values.toString.drop(5).dropRight(1))
     }
 }
 
