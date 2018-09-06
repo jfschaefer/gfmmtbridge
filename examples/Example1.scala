@@ -1,12 +1,12 @@
 import info.kwarc.gfmmtbridge
+import info.kwarc.gfmmtbridge.ServerGfParser
 
 
 val server = new gfmmtbridge.GfServer(".")
-println("Hello")
-println("I'm at: " + System.getProperty("user.dir"))
+val parser = new ServerGfParser(server, "gf/Gossip.pgf")
 
-val trees = server.getRequest("gf/Gossip.pgf", Map("command" -> "parse", "input" -> "John loves Mary and John loves John", "cat" -> "O"))
+val trees = parser.parse("John loves Mary and John loves John", "GossipEng", "O")
 
 for (tree <- trees) {
-  println("tree: " + tree)
+  println("tree: " + tree.toString)
 }
