@@ -44,7 +44,6 @@ class Runner(run : () => Unit,
 
   def launch(): Unit = try {
 
-    println("started launch")
     controller.extman.addExtension(new DependencyGraphExporter)
     controller.extman.addExtension(new DeclarationTreeExporter)
     controller.extman.addExtension(new JSONBasedGraphServer)
@@ -72,7 +71,6 @@ class Runner(run : () => Unit,
       System.loadLibrary("jpgf")
     }
 
-    println("calling RUN")
     run()
   } catch {
     case e: api.Error => println(e.toStringLong)

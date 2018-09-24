@@ -12,13 +12,11 @@ class GfServer(location : String, port : Int = 41296) {
     process.run
 
     def getRequest(pgfPath : String, params : Map[String, String]) : List[String] = {
-        println("pgfPath: " + pgfPath)
         var request = Http("http://localhost:" + port + "/" + pgfPath)
         for (param <- params) {
             request = request.param(param._1, param._2)
         }
         val response = request.asString
-        println("RESPONSE: " + response.body)
         val json = JsonParser.parse(response.body)
 
 

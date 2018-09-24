@@ -9,28 +9,12 @@ class GfMmtBridge(gfParser: GfParser, language : String, mpath : MPath) extends 
     override def logPrefix: String = "gf"
     private def present(tm : Term) = controller.presenter.asString(tm)
 
-    println("START")
-    println("controller2: " + controller)
-    println("MPATH: " + mpath)
-/*    lazy val theory : DeclaredTheory = controller.getO(mpath) match {
+    lazy val theory : DeclaredTheory = controller.getO(mpath) match {
         case Some(th : DeclaredTheory) => th
         case None => ???
     }
-    */
 
     def gf2mmt(sentence : String, cat : String) : List[Term] = {
-        println("--START")
-        println("--controller2: " + controller)
-        println("--MPATH: " + mpath)
-        println("backend: " + controller.backend)
-        println("TEST: " + controller.get(mpath))
-        val theory : DeclaredTheory = controller.getO(mpath) match {
-            case Some(th : DeclaredTheory) => th
-            case None => {
-                println("NOT FOUND")
-                ???
-            }
-        }
         gfParser.parse(sentence, language, cat)
                 .map(_.toOMDocRec(theory))
                 .map(controller.simplifier.apply(_, theory.getInnerContext))
