@@ -22,7 +22,7 @@ def run() : Unit = {
     val server = new gfmmtbridge.GfServer(".")
     // val parser = new ServerGfParser(server, "gf/Gossip.pgf")
     val parser = new ServerGfParser(server, "../mmt/content/MathHub/Teaching/LBS/source/Frag1/frag1Syn.pgf")
-    val bridge = new GfMmtBridge(parser, "frag1SynEN", (DPath(URI.http colon "mathhub.info") / "Teaching" / "LBS") ? "Frag4")
+    val bridge = new GfMmtBridge(parser, "frag1SynEN", (DPath(URI.http colon "mathhub.info") / "Teaching" / "LBS") ? "frag1log")
     Run.controller.extman.addExtension(bridge)
 
     val trees = bridge.gf2mmt("the student ate the dog .", "S")

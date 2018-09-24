@@ -8,24 +8,31 @@ import info.kwarc.mmt.lf.ApplySpine
 
 
 sealed abstract class GfExpr {
-    def toOMDocRec(th : DeclaredTheory) : Term
+    def toOMDocRec(th : Map[String, Constant]) : Term
 }
 
 case class GfFun(fun : String, args : List[GfExpr]) extends GfExpr {
     override def toString: String =
         fun + '(' + args.map(x => x.toString()).mkString(", ") + ')'
 
-    override def toOMDocRec(th: DeclaredTheory): Term = {
+    override def toOMDocRec(theorymap : Map[String, Constant]): Term = {
         if (args.isEmpty) {
-            getTerm(fun, th)
+            getTerm(fun, theorymap)
         } else {
-            ApplySpine(getTerm(fun, th), args.map(_.toOMDocRec(th)):_*)
+            ApplySpine(getTerm(fun, theorymap), args.map(_.toOMDocRec(theorymap)):_*)
         }
     }
 
-    private def getTerm(s : String,th : DeclaredTheory) = th.get(LocalName(s)) match {
-        case c : Constant if c.df.isDefined => c.df.get
-        case c : Constant => c.toTerm
+    private def getTerm(s : String, theorymap : Map[String, Constant]) : Term= {
+        println("Term: " + s)
+        theorymap.get(s) match {
+            case Some(c) => c.toTerm
+            case None => ???
+        }
+        /*match {
+            case c : Constant if c.df.isDefined => c.df.get
+            case c : Constant => c.toTerm
+        }*/
     }
 
 //     private def toOMDocRec(expr : GFExpr, th : DeclaredTheory) : Term = expr match {
