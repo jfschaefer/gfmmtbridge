@@ -25,7 +25,7 @@ def run() : Unit = {
     val bridge = new GfMmtBridge(parser, "frag1SynEN", (DPath(URI.http colon "mathhub.info") / "Teaching" / "LBS") ? "frag1log")
     Run.controller.extman.addExtension(bridge)
 
-    val trees = bridge.gf2mmt("the student ate the dog .", "S")
+    val trees = bridge.gf2mmt("Ethel ate Prudence .", "S")
 
     // val trees = parser.parse("John loves Mary and John loves John", "GossipEng", "O")
     //
