@@ -11,7 +11,7 @@ import scala.collection.immutable.HashMap
 class GfMmtBridge(gfParser: GfParser, language : String, mpath : MPath) extends Extension {
     println("MPATH: " + mpath)
     override def logPrefix: String = "gf"
-    private def present(tm : Term) = controller.presenter.asString(tm)
+    def present(tm : Term) = controller.presenter.asString(tm)
 
     lazy val theory : DeclaredTheory = controller.getO(mpath) match {
         case Some(th : DeclaredTheory) => th
@@ -40,17 +40,16 @@ class GfMmtBridge(gfParser: GfParser, language : String, mpath : MPath) extends 
     }
 
     def gf2mmt(sentence : String, cat : String) : List[Term] = {
-        val trees = gfParser.parse(sentence, language, cat)
+        gfParser.parse(sentence, language, cat)
                 .map(_.toOMDocRec(theorymap))
-
+                .map(controller.simplifier.apply(_, theory.getInnerContext))
+                .distinct
+/*
         for (tree <- trees) {
             println("Tree: " + tree)
             println("  - simplified: " + controller.simplifier.apply(trav(tree, Context.empty), theory.getInnerContext))
         }
-        /*        .map(controller.simplifier.apply(_, theory.getInnerContext))
-                .distinct
-                */
-      trees.distinct
+        */
 
     }
 }

@@ -1,7 +1,5 @@
 package info.kwarc.gfmmtbridge
 
-import info.kwarc.mmt.api.LocalName
-import info.kwarc.mmt.api.modules.DeclaredTheory
 import info.kwarc.mmt.api.objects.Term
 import info.kwarc.mmt.api.symbols.Constant
 import info.kwarc.mmt.lf.ApplySpine
@@ -24,20 +22,9 @@ case class GfFun(fun : String, args : List[GfExpr]) extends GfExpr {
     }
 
     private def getTerm(s : String, theorymap : Map[String, Constant]) : Term= {
-        println("Term: " + s)
         theorymap.get(s) match {
             case Some(c) => c.toTerm
-            case None => ???
+            case None => throw MmtTermMissing("Term '" + s + "' not found in theory")
         }
-        /*match {
-            case c : Constant if c.df.isDefined => c.df.get
-            case c : Constant => c.toTerm
-        }*/
     }
-
-//     private def toOMDocRec(expr : GFExpr, th : DeclaredTheory) : Term = expr match {
-//         case GFStr(s) => get(s,th)
-//         case GFA(fun,args) => ApplySpine(get(fun,th),args.map(toOMDocRec(_,th)):_*)
-//     }
-
 }
