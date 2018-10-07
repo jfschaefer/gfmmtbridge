@@ -33,7 +33,7 @@ class GfServer(location : String, port : Int = 41296) {
 
 
 class ServerGfParser(server : GfServer, pgfPath : String) extends GfParser {
-    override def linearize(expr: GfExpr, language: String, cat : String): String = ???
+    // override def linearize(expr: GfExpr, language: String, cat : String): String = ???
 
     override def parse(sentence: String, language: String, cat : String): List[GfExpr] = {
         val str_trees = server.getRequest(pgfPath, Map("command" -> "parse", "input" -> sentence, "cat" -> cat))
