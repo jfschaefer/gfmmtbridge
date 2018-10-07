@@ -13,6 +13,18 @@ val language = "Example1Eng"
 val dpath = DPath(URI.http colon "mathhub.info") / "Teaching" / "LBS"
 
 
+def inputIterator() : Iterator[String] = {
+  List("Hello world",
+       "if Ethel loathed Berti and Prudence loathed Berti then Fiona loathed Berti",
+       "Ethel loathed Berti",
+       "Prudence loathed Berti or Chester loathed Berti",
+       "it is not the case that Chester loathed Berti",
+       "Fiona loathed Berti",
+       "it is not the case that Prudence loathed Berti"
+  ).iterator
+}
+
+
 def run() : Unit = {
     val server = new gfmmtbridge.GfServer(archivepath)
     val parser = new ServerGfParser(server, pgfpath)
@@ -21,10 +33,7 @@ def run() : Unit = {
 
 
     var knowledge : Set[Set[(Term, Boolean)]] = Set(Set())
-    while (true) {
-        Thread.sleep(300)
-        println("Please tell me something")
-        val input = scala.io.StdIn.readLine().stripLineEnd
+    for (input <- inputIterator()) {
         println("You said '" + input + "'")
         val trees = bridge.gf2mmt(input, "Sentence")
         if (trees.isEmpty)
@@ -92,8 +101,8 @@ val runner = new Runner(() => run(),
     List("gf"),
     "",
     Some(8080),
-    true,
-    Some("/tmp/mmtlog.html")
+  false,
+    None
 )
 
 runner.launch()

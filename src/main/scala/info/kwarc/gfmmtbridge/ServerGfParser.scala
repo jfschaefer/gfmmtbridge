@@ -19,10 +19,15 @@ class GfServer(location : String, port : Int = 41296) {
         val response = request.asString
         val json = JsonParser.parse(response.body)
 
-
         // TODO: The following is a bad hack. Understand json lib and fix it!
         //     (problem can be seen with `println((json \\ "trees").children)`)
-        (json \\ "trees").children.map(tree => tree.values.toString.drop(5).dropRight(1))
+        // (json \\ "trees").children.map(tree => tree.values.toString.drop(5).dropRight(1))
+        val trees = (json\\"trees").children.map(tree => tree.values)
+        if (trees.isEmpty) {
+            List()
+        } else {
+            trees.head.toString.drop(5).dropRight(1).split(", ").toList
+        }
     }
 }
 
