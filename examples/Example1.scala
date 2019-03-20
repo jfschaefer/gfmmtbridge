@@ -53,7 +53,7 @@ def run() : Unit = {
 
     // The GfMmmtBridge uses the parser to translate sentences into
     // terms using an mmt theory (dpath ? "Example1")
-    val bridge = new GfMmtBridge(parser, language, dpath ? "Example1")
+    val bridge = new GfMmtBridge(parser, language, dpath ? "Example1", None)
     Run.controller.extman.addExtension(bridge)
 
 
