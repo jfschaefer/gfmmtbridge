@@ -17,6 +17,7 @@ class GfServer(location : String, port : Int = 41296) {
             request = request.param(param._1, param._2)
         }
         val response = request.asString
+        // println(response.body)
         val json = JsonParser.parse(response.body)
 
         // TODO: The following is a bad hack. Understand json lib and fix it!
